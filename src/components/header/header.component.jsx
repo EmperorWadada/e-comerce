@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {auth} from '../firebase/firebase.util'
 
@@ -20,8 +21,17 @@ const Header = ({ currentUser }) => (
                 SIGN IN
             </Link>)
         }
-
     </div>
 )
 
-export default Header;
+// the null value of current user root reducer is now passed in as current user
+
+const mapStateToProps = state => ({
+    currentUser: state.user.currentUser
+})
+
+export default connect(mapStateToProps)(Header)
+
+
+// A higher order component is a function that accept 
+// other component, modify it and return new higher component

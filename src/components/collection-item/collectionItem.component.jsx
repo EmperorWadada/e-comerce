@@ -1,5 +1,4 @@
 import React from 'react';
-import CollectionPrview from '../preview-collection/collection-preview';
 import './collection.style.scss';
 
 const CollectionItem = ({name, price, imageUrl}) => (
