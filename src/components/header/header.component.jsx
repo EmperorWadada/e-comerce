@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 import CartIcon from '../cart-icon/cart-icon.componenet';
 import {auth} from '../firebase/firebase.util'
 import CartDropDown from '../cart-dropdown/cart-dropdown.component';
+import { createStructuredSelector } from 'reselect';
+import { selectCartItemHidden } from '../../redux/cart/cart.selector';
+import { selectCurrentUser } from '../../redux/user-reducer/user.selector';
 
 import './header.style.scss';
 
@@ -38,12 +41,25 @@ const Header = ({ currentUser, hidden }) => (
 // })
 
 // For nested destructuring 
-const mapStateToProps = ({user: {currentUser}, cart: {hidden}}) => ({
-    currentUser,
-    hidden
+// Before using Selector
+// const mapStateToProps = ({user: {currentUser}, cart: {hidden}}) => ({
+//     currentUser,
+//     hidden
+// })
+
+
+
+// using createStructureSelect help to pass down the appropriate state down to the selectors that needed it
+// Instead of : currentUser: selectCurrentUser(state)  AND
+//            : hidden: selectCartItemHidden(state)
+
+// WE THEN USE CreateStructureSelect  like this
+
+// After using createStructureSelector 
+const mapStateToProps = createStructuredSelector({
+    currentUser: selectCurrentUser,
+    hidden: selectCartItemHidden
 })
-
-
 
 export default connect(mapStateToProps)(Header)
 
