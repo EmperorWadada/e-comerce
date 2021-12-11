@@ -5,7 +5,7 @@ import logger from "redux-logger";
 
 const middleware = [];
 
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === 'production') {
     middleware.push(logger)
 }
 
