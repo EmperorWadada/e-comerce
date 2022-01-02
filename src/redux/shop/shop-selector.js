@@ -27,8 +27,12 @@ createSelector(
     [selectShopData],
     // Before normalization
 
-    shopData => shopData.find(shopDate => shopDate.id === COLLECTION_ID_MAP[collectionId])
-
+    shopData => shopData.find(shopData => shopData.id === COLLECTION_ID_MAP[collectionId])
     // After normalization
     // shopData => shopData[collectionId]
+)
+
+export const selectIsCollectionFetching = createSelector(
+    [selectShopData],
+    shop => shop.isFetching
 )

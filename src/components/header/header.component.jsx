@@ -1,37 +1,39 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import CartIcon from '../cart-icon/cart-icon.componenet';
 import {auth} from '../firebase/firebase.util'
 import CartDropDown from '../cart-dropdown/cart-dropdown.component';
 import { createStructuredSelector } from 'reselect';
 import { selectCartItemHidden } from '../../redux/cart/cart.selector';
 import { selectCurrentUser } from '../../redux/user-reducer/user.selector';
-
+import { signOutStarts } from '../../redux/user-reducer/user.action';
 import './header.style.scss';
+import {HeaderContainer, LogoContainer, OptionDiv, OptionLink, OptionsContainer} from './header.style'
 
-const Header = ({ currentUser, hidden }) => (
-    <div className='header'>
-        <Link className='logo-container' to='/'>HOME</Link>
-        <div className='options'>
-            <Link className='option' to='/shop'>SHOP</Link>
-            <Link className='option' to='/contact'>CONTACT</Link>
+const Header = ({ currentUser, hidden, signOutStarts }) => (
+    <HeaderContainer>
+        <LogoContainer to='/'>HOME</LogoContainer>
+        <OptionsContainer>
+            <OptionLink to='/shop'>SHOP</OptionLink>
+            <OptionLink to='/contact'>CONTACT</OptionLink>
         {
             currentUser ? 
-            (<div className='option' onClick={() => auth.signOut()}>
+            // (<OptionDiv onClick={() => auth.signOut()}>
+            // Using saga to sign out
+            (<OptionDiv onClick={signOutStarts}>
                 SIGN OUT
-            </div>) : (
-            <Link className='option' to='/signin'>
+            </OptionDiv>) : (
+            <OptionLink className='option' to='/signin'>
                 SIGN IN
-            </Link>)
+            </OptionLink>)
         }
-        <CartIcon/>
-        </div>
+        <CartIcon/> 
+        </OptionsContainer>
         {
             hidden ? null: <CartDropDown/>
         }
         
-    </div>
+    </HeaderContainer>
 )
 
 // the null value of current user root reducer is now passed in as current user
@@ -61,7 +63,11 @@ const mapStateToProps = createStructuredSelector({
     hidden: selectCartItemHidden
 })
 
-export default connect(mapStateToProps)(Header)
+const mapDispatchToProp = dispatch => ({
+    signOutStarts: () => dispatch(signOutStarts())
+})
+
+export default connect(mapStateToProps, mapDispatchToProp)(Header)
 
 
 // A higher order component is a function that accept 
